@@ -1,6 +1,8 @@
 import React from 'react';
+import classes from './dude.module.css'
+import AddUserForm from "./AddUserForm";
 
-const users = [
+const usersDefault = [
   {
     id: 1,
     first_name: 'David',
@@ -12,42 +14,61 @@ const users = [
     first_name: 'Kiara',
     last_name: 'Moyer',
     email: 'kmoyer@lenderclose.com',
-  }
+  },
 ]
+
+const HeaderRow = (props) => {
+  if (props.users.length === 2) {
+    return (
+      <tr>
+        <td>
+          <h2>Header</h2>
+        </td>
+      </tr>
+    )
+  } else {
+    return null;
+  }
+}
 
 
 const UserTable = (props) => {
-  mapDemo()
-  const rows = [];
+  let [users, setUsers] = React.useState(usersDefault)
 
-  const rows2 = users.map(user => <UserTable user={user}/>)
-
-  for (let i = 0; i < users.length; i++) {
-    rows.push(<UserTableRow user={users[i]}/>)
+  const handleSubmit = (first, last, email) => {
+    const newUser = {
+      id: users.length + 1,
+      first_name: first,
+      last_name: last,
+      email: email
+    };
+    const newUsers = [...users]
+    newUsers.push(newUser)
+    setUsers(newUsers)
   }
 
-
-  return <table>
-    {users.map(u => <UserTableRow user={u} />)}
-  </table>
+  return <>
+    <table className="table">
+      <tbody>
+      <HeaderRow users={users}/>
+      {users.map(u => <UserTableRow user={u} classes={classes}/>)}
+      </tbody>
+    </table>
+    <AddUserForm handleSubmit={handleSubmit}/>
+  </>
 }
 
-const UserTableRow = (props) => {
-  const user = props.user;
+const UserTableRow = ({user, classes}) => {
   return <tr>
-    <td>{user.id}</td>
-    <td>{user.first_name}</td>
+    <td className={classes.dude}>{user.id}</td>
+    <td className={classes.dude}>{user.first_name}</td>
     <td>{user.last_name}</td>
     <td>{user.email}</td>
+    <td>
+      <label htmlFor="text">I am a textbox</label>
+      <input type="text" name="text"/>
+    </td>
   </tr>
 }
-
-
-const mapDemo = () => {
-  const numbers = [1, 2, 3, 4, 5]
-  const numbersDoubled = numbers.map(n => n * 2)
-  console.log(numbersDoubled)
-}
-
 
 export default UserTable
