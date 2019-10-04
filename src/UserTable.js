@@ -1,6 +1,8 @@
 import React from 'react';
 import classes from './dude.module.css'
 import AddUserForm from "./AddUserForm";
+import $ from 'jquery'
+import Paginator from "./Paginator";
 
 const usersDefault = [
   {
@@ -34,6 +36,15 @@ const HeaderRow = (props) => {
 
 const UserTable = (props) => {
   let [users, setUsers] = React.useState(usersDefault)
+  let [pageNumber, setPageNumber] = React.useState(1)
+
+  React.useEffect(() => {
+    $.ajax( `https://reqres.in/api/users?page=${pageNumber}`).then((result) => {
+      console.log(result);
+      setUsers(result.data)
+    })
+  }, [pageNumber]);
+
 
   const handleSubmit = (first, last, email) => {
     const newUser = {
@@ -55,6 +66,7 @@ const UserTable = (props) => {
       </tbody>
     </table>
     <AddUserForm handleSubmit={handleSubmit}/>
+    <Paginator value={pageNumber} setter={setPageNumber} />
   </>
 }
 

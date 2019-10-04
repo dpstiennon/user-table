@@ -1,9 +1,6 @@
 import React from 'react';
 
 const AddUserForm = (props) => {
-  // const firstNameState = React.useState('');
-  // const firstName = firstNameState[0];
-  // const setFirstName = firstNameState[1];
 
   const [firstName, setFirstName] = React.useState('')
   const [lastName, setLastName ] = React.useState('')
@@ -24,7 +21,7 @@ const AddUserForm = (props) => {
     setEmail(currentValue)
   }
 
-  const handleSubmit = () => {
+  const onSubmit = () => {
     props.handleSubmit(firstName, lastName, email)
   }
 
@@ -42,7 +39,7 @@ const AddUserForm = (props) => {
         <label htmlFor="email">Email</label>
         <input onChange={emailHandler} type="text" name="email" value={email}/>
       </span>
-      <button onClick={handleSubmit}> Add</button>
+      <button onClick={onSubmit}> Add</button>
       <span>{firstName}</span>
     </div>
   );
